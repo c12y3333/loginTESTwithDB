@@ -1,0 +1,237 @@
+<!--%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%  jsp再用-->
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll Position to Input</title>
+	<link href= "scrollPosititonTESTCSS.css"  rel="stylesheet">
+    <style>
+       
+        .title{
+            /*width:75%;*/
+            display: table-cell;
+            height: 100px; 
+            vertical-align: middle;
+            left: 12.5%;
+            border:5px #A6A6D2 solid ;
+            background-color: #5151A2;
+            text-align:center;  /*字置中*/
+            border-radius: 10px;
+        }
+        .floating-window {
+            position: fixed;
+            display: table;
+            /*top: 90vh; /* 距離頁面頂部20px */
+            bottom:10px;
+            right: 20px; /* 距離頁面右邊20px */
+            width: 50px;
+            height: 10px; /* 增加高度以適應 input */
+            background-color: #808040;
+            color: #808040;
+            text-align: center;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        section{
+            width:100%; 
+            height: 100px; 
+            left: 12.5%;
+            display: table;
+        }
+        .page{
+            height: 100vh;
+            border-radius: 10px;
+            display: flex; /*在pag裡全排成一列*/
+        }
+        .page2{
+            height: 100vh;
+            border-radius: 10px;
+            background-color: #84b0df;
+            /*display: flex; /*在pag裡全排成一列*/
+        }
+        body .page:nth-of-type(odd){
+            background-color: #ddd;
+        }
+        body .page:nth-of-type(even){ /*在body下的.page*/
+            background-color: #aaa;
+        }
+        .sticky{
+            width: 100px;
+            font-size: 15px;
+            height: 100px;
+            background-color: red;
+            color: #ffffff;
+            position: sticky;
+            top: 10px;
+            margin: 10px;
+            text-align: center;
+            line-height: 100px;
+            
+        }
+        .stickyposition{
+            width: 100px;
+            font-size: 15px;
+            height: 100px;
+            position: sticky;
+            top: 10px;
+            margin: 10px;
+            line-height: 100px;
+        }
+        .subtitle{
+            /*padding: 10px; /*一圈*/
+            top: 10px;
+            bottom:10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class = "floating-window">
+        <a id="id" style="height: 30px; color: white;"></a>
+        <a href="#head" style="height: 30px; color: white; ">回標題</a>
+
+        <a href="#" onclick="document.getElementById('logout-form').submit();" style="height: 30px; color: white;">登出</a>
+        <form id="logout-form" method="POST" action="/logout" style="display: inline;"> <!-- From會轉頁面 -->
+            <button type="submit" style="height: 30px; color: white; background: none; border: none; cursor: pointer;">登出</button>
+        </form>
+    </div>
+    <div class = "menu" id="head">
+		
+		<button id="resession">session</button> 
+		
+        <li><a href="#Fist">Fist</a></li>
+        <li><a href="#Second">Second</a></li>
+        <li><a href="#Third">Third</a></li>
+    </div>
+    <section>
+	    <div class = "title">標題(title)</div>
+        <!-- 顯示滾動位置的輸入框 -->
+    </section>
+    
+
+    <div class = "page" >
+        <div class = "sticky" id ="Fist"> Fist</div>
+        <div style="display: grid">
+            <div >我是第一頁</div>
+            <div>第一頁的內容</div>
+        </div>
+        
+    </div>
+
+    <div class = "page">
+        <img class = "stickyposition" src ="Second.png" id="Second">
+        <div >
+            <div class ="subtitle">我是第二頁</div>
+            <div>第二頁的內容： 如果此時我們選擇忽略第二頁，那後<span style="color: red;">我是span</span>果可想而知。話雖如此，要想清楚，
+            第二頁，到底是一種怎麼樣的存在。話雖如此，我們卻也不能夠這麼篤定。我們要從本質思考，
+            從根本解決問題。既然如此，可是，即使是這樣，第二頁的出現仍然代表了一定的意義。面對如此難題，
+            我們必須設想周全。柏格森曾說過一句意義深遠的話，發明的深刻影響往往在失去其新鮮感時才獲得承認。
+            這句話讓我們得到了一個全新的觀點去思考這個問題。一般來說，高爾基說過一句著名的話，
+            如果學習只在於模仿，那麼我們就不會有科學，也不會有技術。這段話看似複雜，其中的邏輯思路卻清晰可見。
+            </div>
+        </div>
+    </div>
+
+    <div class = "page">
+        <div class = "sticky" id ="Third"> Third</div>
+        <div class ="subtitle">我是第三頁</div>
+        <div>第三頁的內容</div>
+    </div>
+
+    <div class = "page2">
+        <div class = "sticky" id ="Datapage"> Data_page</div>
+        <div class ="subtitle">我是DB</div>
+
+        <h2>Data人員</h2>
+        <table id = "userTable">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <button id="changetable">change_table</button> 
+
+    </div>
+
+
+    <script>
+		
+		// 監聽滾動事件
+        window.addEventListener('scroll', function() {
+            // 獲取當前的垂直滾動位置
+            let scrollPosition = window.scrollY;
+			//獲得頁面總高度
+        });
+		
+		// 監聽載入事件
+		window.addEventListener('load', function () {
+			alert('載入事件監聽中')
+			
+			fetch('/session-info', {
+				credentials: 'include' //設定在發送 跨域請求 時，是否攜帶 cookies 或 HTTP 認證資訊
+			}).then(response => response.json()).then(data => {
+				
+				if (data.enabled) {
+					alert('Session is enabled. Value: ' + JSON.stringify(data.value) + 'user：'+ data.whouser.usertyp);
+				} else {
+					alert('Session is not enabled.');
+				}
+			}).catch(err => {
+				alert('Error fetching session info.');
+				console.error(err);
+			});
+		});
+		
+		// 監聽button resession click事件
+		document.getElementById('resession').addEventListener('click', async () => {
+		  try {
+			const response = await fetch('/session-info');
+			const data = await response.json();
+			alert(`Session enabled: ${data.enabled}, value: ${data.value}`);
+		  } catch (err) {
+			alert('發生錯誤：' + err.message);
+		  }
+		});
+
+        //塞table Data
+        fetch('/getDBuser').then(response => response.json()).then(data => {
+
+            const tbody = document.querySelector('#userTable tbody');
+            data.forEach(RData => {
+                const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${RData.id}</td>
+                        <td>${RData.usernames}</td>
+                        
+                    `;
+                    tbody.appendChild(row);
+            });
+        }).catch(err => {
+                console.error('無法取得人員資料：', err);
+        });
+
+        // 監聽button changetable click事件 
+		document.getElementById('changetable').addEventListener('click', async () => {
+            const tbody = document.querySelector('#userTable tbody');
+            for (const row of tbody.rows) {
+                for (const cell of row.cells) {
+                    const value = cell.textContent.trim(); // 取得原本的值
+                    cell.innerHTML = `<input type="text" value="${value}">`;
+                }
+            }
+		});
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        document.getElementById('id').textContent = id || 'Guest';
+		
+		
+    </script>
+
+</body>
+</html>

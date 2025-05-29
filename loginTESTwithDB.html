@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="login-form" method="POST" action="/login">
+            <div class="input-field">
+                <label for="usernames">帳號</label>
+                <input type="text" id="usernames" name="usernames" required>
+            </div>
+            <div class="input-field">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <form id="creatUser-form" method="POST" action="/creatUser">
+            <a href= "/creatUser.html">creatUser</a>
+        </form>
+    </div>
+    <script>
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const errorMessage = urlParams.get('errorMessage'); //去抓errorMessage的值(SERVER.js)給的
+        
+        if(errorMessage==='F'){
+            alert(`登入失敗`);
+        }
+    </script>
+</body>
+</html>
